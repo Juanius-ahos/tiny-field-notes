@@ -1,0 +1,330 @@
+/* ---------- minigames ---------- */
+.meter__wins { color: var(--red); }
+.game {
+  margin-top: 16px;
+  padding: 12px 12px 14px;
+  border: 2px solid var(--ink);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s 0.8s, transform 0.5s 0.8s, background 0.3s;
+  position: relative;
+  z-index: 1;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.slot.is-in .game { opacity: 1; transform: none; }
+.game--done { background: #fff; box-shadow: inset 0 0 0 3px #ffd27a; }
+.game__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.game__title {
+  font-weight: 800;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-align: left;
+}
+.game__status {
+  font-weight: 800;
+  font-size: 12px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 999px;
+  padding: 2px 9px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.game__hint {
+  margin: 0 0 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-align: left;
+}
+.game--done .game__hint {
+  color: var(--ink);
+  font-weight: 800;
+  animation: pop 0.45s cubic-bezier(0.2, 1.5, 0.4, 1) both;
+}
+.game__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.game button {
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  color: inherit;
+}
+.game__row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.game .game__chip {
+  font-weight: 800;
+  font-size: 15px;
+  padding: 10px 20px;
+  min-height: 46px;
+  border-radius: 999px;
+  border: 2px solid var(--ink);
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0 3px 0 var(--ink);
+  transition: transform 0.08s, box-shadow 0.08s;
+}
+.game .game__chip:active { box-shadow: 0 0 0 var(--ink); transform: translateY(3px); }
+.game .game__chip--hot { background: var(--red); color: #fff; }
+.game .game__chip--hold { touch-action: none; -webkit-touch-callout: none; min-width: 200px; }
+.game .game__chip--hold.is-holding { background: #2f8a62; color: #fff; transform: translateY(3px) scale(0.98); box-shadow: none; }
+.game .game__replay {
+  margin-top: 8px;
+  background: none;
+  border: none;
+  font-weight: 800;
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--ink-soft);
+  padding: 6px;
+}
+.game__out { margin: 0; font-size: 14px; font-weight: 700; min-height: 1.4em; }
+.game__quote { margin: 0; font-style: italic; font-size: 15px; font-weight: 600; }
+.game__quote.is-ok { color: #2f8a62; }
+.game__quote.is-bad { color: var(--red); }
+.game__stamp {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  z-index: 2;
+  font-size: 22px;
+  letter-spacing: 0.12em;
+  color: var(--red);
+  border: 3px solid var(--red);
+  border-radius: 8px;
+  padding: 2px 10px;
+  background: rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+  animation: stampIn 0.35s cubic-bezier(0.5, 0, 0.6, 1.6) both;
+}
+@keyframes stampIn {
+  0% { transform: translate(-50%, -50%) rotate(-14deg) scale(2.2); opacity: 0; }
+  100% { transform: translate(-50%, -50%) rotate(-14deg) scale(1); opacity: 0.9; }
+}
+
+/* 1. kitchen catch */
+.arena {
+  position: relative;
+  width: 100%;
+  height: 190px;
+  border-radius: 12px;
+  background: repeating-linear-gradient(90deg, #fff 0 22px, #fdf1ea 22px 44px);
+  border: 2px solid var(--ink);
+  overflow: hidden;
+  touch-action: manipulation;
+}
+.game .faller {
+  position: absolute;
+  font-size: 30px;
+  line-height: 1;
+  width: 48px;
+  height: 48px;
+  margin: -6px 0 0 -6px;
+  background: none;
+  border: none;
+  padding: 0;
+}
+.faller--kiss { filter: drop-shadow(0 0 6px rgba(240, 69, 90, 0.5)); }
+.arena__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  background: rgba(255, 250, 246, 0.8);
+}
+.arena__overlay--win { font-size: 64px; animation: pop 0.5s cubic-bezier(0.2, 1.5, 0.4, 1) both; }
+.arena__toast {
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--red);
+  pointer-events: none;
+}
+
+/* 2. shell game */
+.shells { position: relative; width: 100%; height: 76px; }
+.game .shell {
+  position: absolute;
+  top: 6px;
+  width: 60px;
+  height: 64px;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: left 0.22s ease-in-out;
+}
+.shell__egg { font-size: 48px; line-height: 1; display: block; }
+.shell--pick .shell__egg { animation: wobble 0.9s ease-in-out infinite; }
+.shell--picked .shell__egg { transform: scale(1.15); }
+@keyframes wobble {
+  0%, 100% { transform: rotate(-6deg); }
+  50% { transform: rotate(6deg); }
+}
+
+/* 3. name reflex */
+.game .reflex {
+  width: 100%;
+  height: 92px;
+  border-radius: 14px;
+  border: 2px solid var(--ink);
+  background: var(--c3);
+  font-family: var(--display);
+  font-size: 30px;
+  transition: background 0.1s;
+  touch-action: manipulation;
+}
+.game .reflex--go { background: #8fd6b0; animation: pop 0.2s both; }
+.game .reflex:disabled { opacity: 1; cursor: default; }
+
+/* 4. lean in */
+.lean {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: #fff;
+  overflow: hidden;
+}
+.lean__zone { position: absolute; top: 0; bottom: 0; background: #b9ecd0; }
+.lean__fill { position: absolute; top: 0; bottom: 0; left: 0; background: rgba(240, 69, 90, 0.3); }
+.lean__face { position: absolute; top: 5px; font-size: 24px; line-height: 1; }
+.lean__hair { position: absolute; right: 6px; top: 5px; font-size: 24px; line-height: 1; }
+
+/* 5. slots */
+.slots { display: flex; gap: 8px; justify-content: center; }
+.slots__reel {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  font-size: 36px;
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  box-shadow: inset 0 -6px 0 rgba(58, 29, 38, 0.08);
+}
+.slots__reel.is-spinning { animation: reelBlur 0.08s linear infinite; }
+@keyframes reelBlur {
+  0% { transform: translateY(-3px); filter: blur(1px); }
+  100% { transform: translateY(3px); filter: blur(1px); }
+}
+.slots--win .slots__reel { background: #fff3c7; animation: pop 0.4s both; }
+
+/* 7. snooze grid */
+.grid9 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+  max-width: 260px;
+}
+.game .grid9__cell {
+  aspect-ratio: 1.4;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  background: #fff;
+  font-size: 30px;
+  padding: 0;
+  touch-action: manipulation;
+}
+.grid9__cell.is-ringing { background: #ffe0ea; animation: ring 0.18s linear infinite; }
+@keyframes ring {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+/* 8. laugh track */
+.track {
+  position: relative;
+  width: 100%;
+  height: 34px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: #fff;
+  overflow: hidden;
+}
+.track__zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: #ffd27a;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 800;
+}
+.track__marker {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  width: 6px;
+  margin-left: -3px;
+  border-radius: 3px;
+  background: var(--ink);
+}
+
+/* 9. quick maths */
+.timer { width: 100%; height: 8px; border-radius: 999px; background: rgba(58, 29, 38, 0.12); overflow: hidden; }
+.timer div { height: 100%; background: var(--red); }
+.quiz__q { margin: 0; font-family: var(--display); font-size: 30px; line-height: 1.1; }
+.quiz__juan { margin: 0; font-size: 13px; color: var(--ink-soft); }
+
+/* 10. sign it */
+.cert {
+  width: 100%;
+  background: #fffaf0;
+  border: 1.5px solid #b8893a;
+  outline: 1px solid #b8893a;
+  outline-offset: -6px;
+  border-radius: 6px;
+  padding: 12px 12px 10px;
+}
+.cert__text { margin: 0 0 6px; font-size: 14px; }
+.cert__pad { position: relative; height: 110px; }
+.cert__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: crosshair;
+  z-index: 1;
+}
+.cert__line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game { opacity: 1; transform: none; }
+}
