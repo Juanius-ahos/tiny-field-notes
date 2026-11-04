@@ -9,9 +9,9 @@ export type Reason = {
 
 export const reasons: Reason[] = [
   {
-    title: 'Kitchen Hall of Fame',
-    line: 'My kitchen has hosted a lot of things. Our first kiss is still its only award.',
-    emoji: '🍳',
+    title: 'Dream Guy, in Training',
+    line: 'Currently training for the role of the man of your dreams. Enthusiasm: 100%. Experience: still training.',
+    emoji: '💼',
   },
   {
     title: 'Farfoura, Obviously',

@@ -14,7 +14,7 @@ function Q({ q, done, answer, children }: { q: string; done: boolean; answer: st
 }
 
 /* 1. The wrong answer runs away */
-function Kitchen() {
+function Application() {
   const [done, setDone] = useState(false)
   const [pos, setPos] = useState({ x: 0, y: 0 })
   const [n, setN] = useState(0)
@@ -23,9 +23,9 @@ function Kitchen() {
     setPos({ x: (Math.random() > 0.5 ? 1 : -1) * (40 + Math.random() * 60), y: (Math.random() - 0.5) * 50 })
   }
   return (
-    <Q q="Best room in the house?" done={done} answer="Correct. Only one room has a trophy.">
+    <Q q="Rate his application:" done={done} answer="Marked as promising. Training continues.">
       <button className="tb tb--hot" onClick={() => setDone(true)}>
-        The kitchen 🍳
+        Promising 🤝
       </button>
       <button
         className="tb tb--run"
@@ -33,7 +33,7 @@ function Kitchen() {
         onPointerDown={flee}
         onMouseEnter={flee}
       >
-        {n === 0 ? 'Any other room' : n < 3 ? 'nope 🏃' : 'stop trying 🏃‍♂️'}
+        {n === 0 ? 'Reject' : n < 3 ? 'nope 🏃' : 'stop trying 🏃‍♂️'}
       </button>
     </Q>
   )
@@ -291,4 +291,4 @@ function pick<T>(arr: T[]) {
   return arr[Math.floor(Math.random() * arr.length)]
 }
 
-export const games = [Kitchen, Farfoura, Names, Hair, October, Sarcasm, Sleep, Laugh, Smart, Certified]
+export const games = [Application, Farfoura, Names, Hair, October, Sarcasm, Sleep, Laugh, Smart, Certified]
