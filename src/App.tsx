@@ -8,7 +8,7 @@ const TOTAL = reasons.length
 // Each card gets its own 3D entrance, cycling through these.
 const ENTRANCES = ['flip-up', 'swing-left', 'spin-right', 'drop-in', 'swing-right']
 
-function Meter({ shown, wins }: { shown: number; wins: number }) {
+function Meter({ shown }: { shown: number }) {
   const over = shown >= TOTAL
   const [overPct, setOverPct] = useState(100)
 
@@ -32,10 +32,7 @@ function Meter({ shown, wins }: { shown: number; wins: number }) {
   return (
     <div className={`meter ${over ? 'meter--over' : ''}`} role="status" aria-live="polite">
       <div className="meter__top">
-        <span className="meter__name">
-          Love Overload Meter
-          {wins > 0 && <span className="meter__wins"> · 🏅 {wins}/{TOTAL}</span>}
-        </span>
+        <span className="meter__name">Love Overload Meter</span>
         <span className="meter__pct" data-text={`${pct}%`}>
           {pct}%
         </span>
@@ -53,7 +50,6 @@ function Meter({ shown, wins }: { shown: number; wins: number }) {
 export default function App() {
   const [seen, setSeen] = useState<Set<number>>(() => new Set())
   const [finalSeen, setFinalSeen] = useState(false)
-  const [wins, setWins] = useState<Set<number>>(() => new Set())
   const slotRefs = useRef<(HTMLElement | null)[]>([])
   const finalRef = useRef<HTMLElement | null>(null)
 
@@ -111,7 +107,7 @@ export default function App() {
 
   return (
     <>
-      <Meter shown={shown} wins={wins.size} />
+      <Meter shown={shown} />
 
       <header className="hero">
         <p className="hero__kicker">a very official list by Juan</p>
@@ -151,7 +147,7 @@ export default function App() {
                 {(() => {
                   const Game = games[i]
                   return Game ? (
-                    <Game onWin={() => setWins((w) => (w.has(i) ? w : new Set(w).add(i)))} />
+                    <Game />
                   ) : null
                 })()}
                 <div className="card__shine" aria-hidden="true" />
