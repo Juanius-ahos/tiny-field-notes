@@ -29,14 +29,14 @@ export const reasons: Reason[] = [
     emoji: '💐',
   },
   {
-    title: 'October 2023',
-    line: 'Best thing that happened in October 2023, narrowly beating everything else that happened in October 2023.',
-    emoji: '📅',
+    title: 'Miss President',
+    line: "Running events like a boss. I'd come cheer, but I've been warned about a kaff 😂",
+    emoji: '👑',
   },
   {
-    title: 'The Sarcasm Dataset',
-    line: 'You built an AI that detects sarcasm. I remain the one case it will never solve.',
-    emoji: '🤖',
+    title: 'Daily Check-In',
+    line: "My most asked question in history: \"akalte?\" You answer \"Ee\". The system works.",
+    emoji: '🍽️',
   },
   {
     title: 'Sleep Is Cardio',
@@ -44,9 +44,9 @@ export const reasons: Reason[] = [
     emoji: '😴',
   },
   {
-    title: 'That Laugh',
-    line: 'My jokes are average at best. Your laugh does all the heavy lifting.',
-    emoji: '😂',
+    title: 'The Sarcasm Dataset',
+    line: 'You built an AI that detects sarcasm. I remain the one case it will never solve.',
+    emoji: '🤖',
   },
   {
     title: 'Smarter Than Me',

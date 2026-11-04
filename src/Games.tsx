@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import './games.css'
 
 // One tiny, slightly annoying question per reason.
@@ -106,86 +106,51 @@ function Hair() {
   )
 }
 
-/* 5. The slider snaps back to 10 */
-function October() {
+/* 5. The wrong answer turns into a slap and flies away */
+function President() {
   const [done, setDone] = useState(false)
-  const [v, setV] = useState(10)
-  const [msg, setMsg] = useState('')
-  const [tries, setTries] = useState(0)
-  const timer = useRef<number | null>(null)
-  useEffect(() => () => {
-    if (timer.current) clearTimeout(timer.current)
-  }, [])
-  const release = () => {
-    if (v < 10) {
-      setTries((t) => t + 1)
-      setMsg(pick(['That is not an option.', 'The slider disagrees.', 'October 2023 is offended.']))
-      timer.current = window.setTimeout(() => setV(10), 250)
-    } else if (tries > 0 || msg) {
-      setDone(true)
-    }
-  }
+  const [kaffed, setKaffed] = useState(false)
   return (
-    <Q q="Rate October 2023 out of 10" done={done} answer="10/10. Correct. It was the month of you.">
-      <div className="slider">
-        <input
-          type="range"
-          min={1}
-          max={10}
-          value={v}
-          onChange={(e) => setV(Number(e.target.value))}
-          onPointerUp={release}
-          onTouchEnd={release}
-          onKeyUp={release}
-          aria-label="Rating"
-        />
-        <span className="slider__val">{v}</span>
-      </div>
-      <p className="troll__note">{msg || 'Go ahead, try a lower number.'}</p>
+    <Q q="Should Juan show up to your event?" done={done} answer="Wise choice. Juan stays home, cheek intact.">
       <button className="tb tb--hot" onClick={() => setDone(true)}>
-        {tries > 0 ? 'Fine, 10' : 'Submit 10'}
+        Ou3a 🙅‍♀️
       </button>
+      {!kaffed ? (
+        <button className="tb" onClick={() => setKaffed(true)}>
+          Yes
+        </button>
+      ) : (
+        <span className="kaff" aria-hidden="true">
+          👋
+        </span>
+      )}
+      {kaffed && <p className="troll__note">Juan has been kaffed. Try the other answer.</p>}
     </Q>
   )
 }
 
-/* 6. Fake loading stuck at 99% */
-function Sarcasm() {
+/* 6. "La2" triggers a typing bubble that never finishes */
+function Akalte() {
   const [done, setDone] = useState(false)
-  const [p, setP] = useState(0)
-  const [runs, setRuns] = useState(0)
-  const [running, setRunning] = useState(false)
-  useEffect(() => {
-    if (!running) return
-    const id = window.setInterval(() => setP((x) => Math.min(99, x + 7)), 60)
-    return () => window.clearInterval(id)
-  }, [running])
-  // Gets stuck at 99%, waits a moment, then gives up.
-  useEffect(() => {
-    if (!running || p < 99) return
-    const t = window.setTimeout(() => {
-      setRunning(false)
-      setRuns((r) => r + 1)
-    }, 700)
-    return () => window.clearTimeout(t)
-  }, [running, p])
-  const start = () => {
-    if (runs >= 2) {
-      setDone(true)
-      return
-    }
-    setP(0)
-    setRunning(true)
-  }
+  const [typing, setTyping] = useState(false)
   return (
-    <Q q="Use your AI: was Juan being sarcastic?" done={done} answer="ERROR 418: Juan cannot be analyzed. Your AI needs a hug.">
-      <div className="loader">
-        <div style={{ width: `${p}%` }} />
-        <span>{running ? `analyzing Juan... ${p}%` : runs ? '99% ... recalibrating 🤖' : 'ready'}</span>
-      </div>
-      <button className="tb tb--hot" onClick={start} disabled={running}>
-        {runs === 0 ? 'Analyze' : runs === 1 ? 'Try again' : 'Try one more time'}
+    <Q q="Akalte?" done={done} answer="Ok good bb 💛">
+      <button className="tb tb--hot" onClick={() => setDone(true)}>
+        Ee
       </button>
+      {!typing && (
+        <button className="tb" onClick={() => setTyping(true)}>
+          La2
+        </button>
+      )}
+      {typing && (
+        <p className="typing">
+          Juan is typing<span>.</span>
+          <span>.</span>
+          <span>.</span>
+        </p>
+      )}
+      {typing && <p className="troll__note">(he will be typing forever. Just say Ee.)</p>}
     </Q>
   )
 }
@@ -229,20 +194,43 @@ function Sleep() {
   )
 }
 
-/* 8. "No" shrinks, "Yes" grows */
-function Laugh() {
+/* 8. Fake loading stuck at 99% */
+function Sarcasm() {
   const [done, setDone] = useState(false)
-  const [n, setN] = useState(0)
+  const [p, setP] = useState(0)
+  const [runs, setRuns] = useState(0)
+  const [running, setRunning] = useState(false)
+  useEffect(() => {
+    if (!running) return
+    const id = window.setInterval(() => setP((x) => Math.min(99, x + 7)), 60)
+    return () => window.clearInterval(id)
+  }, [running])
+  // Gets stuck at 99%, waits a moment, then gives up.
+  useEffect(() => {
+    if (!running || p < 99) return
+    const t = window.setTimeout(() => {
+      setRunning(false)
+      setRuns((r) => r + 1)
+    }, 700)
+    return () => window.clearTimeout(t)
+  }, [running, p])
+  const start = () => {
+    if (runs >= 2) {
+      setDone(true)
+      return
+    }
+    setP(0)
+    setRunning(true)
+  }
   return (
-    <Q q="Was Juan's last joke funny?" done={done} answer="Your laugh says yes. Comedy saved.">
-      <button className="tb tb--hot" style={{ transform: `scale(${1 + n * 0.25})` }} onClick={() => setDone(true)}>
-        Yes 😂
+    <Q q="Use your AI: was Juan being sarcastic?" done={done} answer="ERROR 418: Juan cannot be analyzed. Your AI needs a hug.">
+      <div className="loader">
+        <div style={{ width: `${p}%` }} />
+        <span>{running ? `analyzing Juan... ${p}%` : runs ? '99% ... recalibrating 🤖' : 'ready'}</span>
+      </div>
+      <button className="tb tb--hot" onClick={start} disabled={running}>
+        {runs === 0 ? 'Analyze' : runs === 1 ? 'Try again' : 'Try one more time'}
       </button>
-      {n < 5 && (
-        <button className="tb" style={{ transform: `scale(${1 - n * 0.18})` }} onClick={() => setN(n + 1)}>
-          No
-        </button>
-      )}
     </Q>
   )
 }
@@ -287,8 +275,4 @@ function Certified() {
   )
 }
 
-function pick<T>(arr: T[]) {
-  return arr[Math.floor(Math.random() * arr.length)]
-}
-
-export const games = [Application, Farfoura, Names, Hair, October, Sarcasm, Sleep, Laugh, Smart, Certified]
+export const games = [Application, Farfoura, Names, Hair, President, Akalte, Sleep, Sarcasm, Smart, Certified]

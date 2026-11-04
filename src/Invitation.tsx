@@ -88,11 +88,19 @@ export default function Invitation() {
         <dl className="invite__details">
           <div>
             <dt>Date</dt>
-            <dd>Today</dd>
+            <dd>Today, after work</dd>
           </div>
           <div>
             <dt>Activity</dt>
             <dd>Netflix &amp; Teleparty</dd>
+          </div>
+          <div>
+            <dt>Billing</dt>
+            <dd>Handled by Juan. Netflix tried to ruin this by charging your card. Netflix failed.</dd>
+          </div>
+          <div>
+            <dt>RSVP</dt>
+            <dd>"Deal" received. "Will see" noted.</dd>
           </div>
           <div>
             <dt>Dress code</dt>
