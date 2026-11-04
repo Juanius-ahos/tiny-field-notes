@@ -1,10 +1,17 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import './games.css'
 
 // One tiny, slightly annoying question per reason.
 // Every card has a different trick, and there is only one way out.
 
+/** Lets the slideshow know a card's question has been answered. */
+export const DoneContext = createContext<() => void>(() => {})
+
 function Q({ q, done, answer, children }: { q: string; done: boolean; answer: string; children: ReactNode }) {
+  const onDone = useContext(DoneContext)
+  useEffect(() => {
+    if (done) onDone()
+  }, [done, onDone])
   return (
     <div className={`troll ${done ? 'troll--done' : ''}`}>
       <p className="troll__q">{q}</p>

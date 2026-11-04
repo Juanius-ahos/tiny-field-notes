@@ -1,0 +1,156 @@
+/* ---------- slideshow mode ---------- */
+/* One card at a time. Inactive cards stay mounted (so answers are kept) but hidden. */
+
+.hero { min-height: calc(100dvh - 74px); }
+.start {
+  margin-top: 40px;
+  align-self: flex-start;
+  font: inherit;
+  font-weight: 800;
+  font-size: 19px;
+  color: var(--card);
+  background: var(--ink);
+  border: none;
+  border-radius: 999px;
+  padding: 16px 30px;
+  min-height: 56px;
+  cursor: pointer;
+  box-shadow: 0 5px 0 var(--red);
+  -webkit-tap-highlight-color: transparent;
+  animation: nudge 2.4s 1.5s ease-in-out infinite;
+}
+.start:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--red); }
+@keyframes nudge {
+  0%, 80%, 100% { transform: rotate(0); }
+  85% { transform: rotate(-3deg) scale(1.03); }
+  90% { transform: rotate(3deg) scale(1.03); }
+  95% { transform: rotate(-2deg); }
+}
+.start__note {
+  margin: 14px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.stage {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 16px 16px 28px;
+  min-height: calc(100dvh - 74px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.stage .slot { display: none; min-height: 0; padding: 10px 0 6px; }
+.stage .slot.is-active { display: grid; }
+
+/* Cards are always "landed" here; the entrance plays as an animation each time a card is shown. */
+.stage .card { opacity: 1; transform: none; rotate: var(--tilt); transition: none; }
+.stage .slot.is-active .card { animation: 0.85s cubic-bezier(0.2, 1.25, 0.35, 1) both; }
+.stage .slot.is-active .enter--flip-up { animation-name: in-flip-up; }
+.stage .slot.is-active .enter--swing-left { animation-name: in-swing-left; }
+.stage .slot.is-active .enter--swing-right { animation-name: in-swing-right; }
+.stage .slot.is-active .enter--spin-right { animation-name: in-spin; }
+.stage .slot.is-active .enter--drop-in { animation-name: in-drop; }
+@keyframes in-flip-up {
+  from { transform: rotateX(-95deg) translateY(60px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes in-swing-left {
+  from { transform: rotateY(85deg) translateX(-30px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes in-swing-right {
+  from { transform: rotateY(-85deg) translateX(30px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes in-spin {
+  from { transform: rotateY(-200deg) scale(0.6); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes in-drop {
+  from { transform: translateY(-140px) rotateX(70deg) scale(1.15); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+.stage .card__title,
+.stage .card__line,
+.stage .troll { opacity: 1; transform: none; transition: none; }
+.stage .slot.is-active .card__title { animation: rise 0.5s 0.4s both; }
+.stage .slot.is-active .card__line { animation: rise 0.5s 0.55s both; }
+.stage .slot.is-active .troll { animation: rise 0.5s 0.75s both; }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+.stage .card__emoji { transform: translateZ(40px); transition: none; }
+.stage .slot.is-active .card__emoji { animation: emojiIn 0.6s 0.5s cubic-bezier(0.2, 1.8, 0.4, 1) both, spin3d 4s 1.4s ease-in-out infinite; }
+@keyframes emojiIn {
+  from { transform: translateZ(40px) scale(0); }
+  to { transform: translateZ(40px) scale(1); }
+}
+.stage .slot.is-active .card__shine { animation: shine 1.1s 0.7s ease-out both; }
+
+/* pager */
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 18px;
+}
+.pager__btn {
+  font: inherit;
+  font-weight: 800;
+  font-size: 15px;
+  min-height: 48px;
+  min-width: 96px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 2px solid var(--ink);
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0 3px 0 var(--ink);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.pager__btn:active { transform: translateY(3px); box-shadow: none; }
+.pager__btn--next { background: var(--ink); color: var(--card); box-shadow: 0 3px 0 var(--red); }
+.pager__btn--next:not(:disabled) { animation: pop 0.4s cubic-bezier(0.2, 1.5, 0.4, 1) both; }
+.pager__btn:disabled {
+  background: transparent;
+  color: var(--ink-soft);
+  border-style: dashed;
+  box-shadow: none;
+  cursor: default;
+}
+.pager__count {
+  font-family: var(--display);
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+}
+.pager__hint {
+  margin: 10px 0 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.pager__back { margin: 18px 0 0; }
+
+.final__more {
+  position: relative;
+  z-index: 6;
+  margin: 34px 0 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  opacity: 0;
+  transition: opacity 0.6s 3.6s;
+}
+.final.is-in .final__more { opacity: 1; animation: bob 1.4s 3.6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .stage .card, .stage .card__title, .stage .card__line, .stage .troll, .stage .card__emoji { animation: none !important; opacity: 1; }
+}

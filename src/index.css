@@ -35,7 +35,7 @@ body {
   font-family: var(--body);
   font-size: 17px;
   line-height: 1.5;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* ---------- meter ---------- */
