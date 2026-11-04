@@ -190,31 +190,41 @@ function Sarcasm() {
   )
 }
 
-/* 7. The "wake up" button falls asleep */
+/* 7. Juan is calling, and the "answer" button falls asleep */
+const MISSED = [1, 4, 12, 27]
 function Sleep() {
   const [done, setDone] = useState(false)
-  const [naps, setNaps] = useState(0)
+  const [tries, setTries] = useState(0)
   const [asleep, setAsleep] = useState(false)
-  const nap = () => {
+  const missed = MISSED[Math.min(tries, MISSED.length - 1)]
+  const answer = () => {
     if (asleep) return
     setAsleep(true)
-    setNaps((n) => n + 1)
+    setTries((n) => n + 1)
     window.setTimeout(() => setAsleep(false), 1200)
   }
   return (
-    <Q q="Alarm is ringing ⏰ What do you do?" done={done} answer="Sleep wins again. Incredible cardio.">
+    <Q
+      q="📞 Juan is calling... You're asleep. What happens?"
+      done={done}
+      answer={`${missed} missed call${missed > 1 ? 's' : ''} from Juan. Sleep remains undefeated.`}
+    >
+      <div className={`phone ${asleep ? '' : 'phone--ring'}`} aria-hidden="true">
+        📱 <span>Juan 🕺</span>
+      </div>
       <button className="tb tb--hot" onClick={() => setDone(true)}>
-        Snooze 😴
+        Keep sleeping 😴
       </button>
-      {naps < 3 ? (
-        <button className={`tb ${asleep ? 'tb--asleep' : ''}`} onClick={nap}>
-          {asleep ? 'zzz 💤' : 'Wake up ☀️'}
+      {tries < 3 ? (
+        <button className={`tb ${asleep ? 'tb--asleep' : ''}`} onClick={answer}>
+          {asleep ? 'zzz 💤' : 'Answer ☀️'}
         </button>
       ) : (
         <button className="tb tb--asleep" disabled>
-          wake up button is now asleep
+          the answer button fell asleep too
         </button>
       )}
+      {tries > 0 && <p className="troll__note">Missed calls from Juan: {missed}</p>}
     </Q>
   )
 }

@@ -119,3 +119,20 @@
 @media (prefers-reduced-motion: reduce) {
   .troll { opacity: 1; transform: none; }
 }
+
+/* incoming call */
+.phone {
+  flex-basis: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 26px;
+  margin-bottom: 2px;
+}
+.phone span { font-size: 14px; font-weight: 800; }
+.phone--ring { animation: ring 0.25s linear infinite; }
+@keyframes ring {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
